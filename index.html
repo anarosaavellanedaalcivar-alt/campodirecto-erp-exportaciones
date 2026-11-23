@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Módulo de gestión de exportaciones de CampoDirecto ERP">
+  <title>CampoDirecto ERP | Exportaciones</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#"><span class="brand-mark">CD</span><span><b>CampoDirecto</b><small>ERP · GESTIÓN AGRÍCOLA</small></span></a>
+    <div class="workspace"><span class="workspace-dot"></span> Empresa · Ecuador</div>
+    <p class="nav-label">GESTIÓN EMPRESARIAL</p>
+    <a class="nav-item" href="#dashboard"><span>▦</span> Panel general</a>
+    <a class="nav-item" href="#exports"><span>⇧</span> Exportaciones <em>ERP</em></a>
+    <a class="nav-item" href="#new-export"><span>＋</span> Nueva exportación</a>
+    <a class="nav-item" href="#documents"><span>▤</span> Documentación</a>
+    <a class="nav-item" href="#reports"><span>▥</span> Reportes</a>
+    <div class="sidebar-bottom"><div class="avatar">AD</div><div><b>Administrador</b><small>Panel de operaciones</small></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="breadcrumb">CampoDirecto <span>/</span> ERP <span>/</span> <b>Exportaciones</b></div>
+      <div class="top-actions"><span class="live-dot"></span><span class="top-status">Sistema de gestión</span><button id="export-csv" class="btn btn-outline">↓ Descargar CSV</button></div>
+    </header>
+
+    <section id="dashboard" class="page-heading">
+      <div><p class="overline">COMERCIO EXTERIOR · ECUADOR</p><h1>Gestión de exportaciones</h1><p class="subtitle">Administra tus operaciones internacionales desde un solo lugar.</p></div>
+      <a href="#new-export" class="btn btn-primary">＋ Nueva exportación</a>
+    </section>
+
+    <section class="stats-grid">
+      <article class="metric"><div class="metric-top"><span>Operaciones registradas</span><span class="metric-icon">⇧</span></div><strong id="metric-operations">0</strong><small>Total de exportaciones</small></article>
+      <article class="metric"><div class="metric-top"><span>Valor comercial</span><span class="metric-icon">＄</span></div><strong id="metric-value">$0.00</strong><small>Suma de valores FOB registrados</small></article>
+      <article class="metric"><div class="metric-top"><span>En tránsito</span><span class="metric-icon">↗</span></div><strong id="metric-transit">0</strong><small>Operaciones en transporte</small></article>
+      <article class="metric"><div class="metric-top"><span>Países de destino</span><span class="metric-icon">◎</span></div><strong id="metric-countries">0</strong><small>Mercados atendidos</small></article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel progress-panel">
+        <div class="panel-head"><div><h2>Estado de las operaciones</h2><p>Distribución según la etapa de exportación</p></div><span class="soft-tag">En tiempo real local</span></div>
+        <div id="status-summary" class="status-summary"></div>
+      </article>
+      <article class="panel quick-panel">
+        <div class="panel-head"><div><h2>Accesos rápidos</h2><p>Herramientas de gestión</p></div></div>
+        <a href="#new-export" class="quick-link"><span class="quick-icon">＋</span><span><b>Registrar operación</b><small>Crear una nueva exportación</small></span><span class="arrow">→</span></a>
+        <a href="#documents" class="quick-link"><span class="quick-icon">▤</span><span><b>Control documental</b><small>Revisar documentos requeridos</small></span><span class="arrow">→</span></a>
+        <a href="#reports" class="quick-link"><span class="quick-icon">▥</span><span><b>Consultar reportes</b><small>Analizar resultados comerciales</small></span><span class="arrow">→</span></a>
+      </article>
+    </section>
+
+    <section id="new-export" class="panel form-panel">
+      <div class="panel-head"><div><p class="overline">NUEVA OPERACIÓN</p><h2>Registrar exportación</h2><p>Completa la información comercial, logística y financiera.</p></div><span class="required-note">* Campos obligatorios</span></div>
+      <form id="export-form">
+        <div class="form-section-title"><span>01</span><div><b>Información comercial</b><small>Datos principales de la negociación</small></div></div>
+        <div class="form-grid">
+          <label>Referencia / código<input id="reference" placeholder="Ej. CD-EXP-001" required></label>
+          <label>Fecha de operación<input id="date" type="date" required></label>
+          <label>Producto agrícola<select id="product" required><option value="">Seleccionar producto</option><option>Papa</option><option>Maíz</option><option>Trigo</option><option>Cebada</option><option>Avena</option><option>Arveja</option><option>Fréjol</option><option>Haba</option><option>Cebolla colorada</option><option>Tomate de árbol</option><option>Otro producto</option></select></label>
+          <label>Descripción adicional<input id="description" placeholder="Variedad, calidad o presentación"></label>
+          <label>Importador / comprador<input id="buyer" placeholder="Nombre de la empresa compradora" required></label>
+          <label>País de destino<select id="country" required><option value="">Seleccionar país</option><option>Estados Unidos</option><option>Países Bajos</option><option>Alemania</option><option>España</option><option>Colombia</option><option>Perú</option><option>Chile</option><option>Italia</option><option>Canadá</option><option>Otro destino</option></select></label>
+          <label>Contacto del comprador<input id="contact" placeholder="Correo o teléfono"></label>
+          <label>Moneda de negociación<select id="currency"><option value="USD">Dólar estadounidense (USD)</option><option value="EUR">Euro (EUR)</option><option value="COP">Peso colombiano (COP)</option></select></label>
+        </div>
+
+        <div class="form-section-title"><span>02</span><div><b>Detalles de la mercancía</b><small>Cantidad, unidad y precio acordado</small></div></div>
+        <div class="form-grid">
+          <label>Cantidad<input id="quantity" type="number" min="0.01" step="0.01" placeholder="Ej. 12000" required></label>
+          <label>Unidad de medida<select id="unit"><option value="kg">Kilogramos (kg)</option><option value="t">Toneladas (t)</option><option value="cajas">Cajas</option><option value="unidades">Unidades</option></select></label>
+          <label>Precio unitario<input id="unit-price" type="number" min="0" step="0.01" placeholder="Precio por unidad" required></label>
+          <label>Incoterm 2020<select id="incoterm"><option>EXW</option><option>FCA</option><option>FAS</option><option>FOB</option><option>CFR</option><option>CIF</option><option>CPT</option><option>CIP</option><option>DAP</option><option>DPU</option><option>DDP</option></select></label>
+        </div>
+        <div class="calculation-strip"><div><small>Valor comercial calculado</small><strong id="calculated-value">$0.00</strong></div><p>El valor se calcula multiplicando cantidad por precio unitario. Confirma que la moneda y la unidad correspondan al contrato.</p></div>
+
+        <div class="form-section-title"><span>03</span><div><b>Logística internacional</b><small>Información de transporte y entrega</small></div></div>
+        <div class="form-grid">
+          <label>Medio de transporte<select id="transport"><option>Marítimo</option><option>Aéreo</option><option>Terrestre</option><option>Multimodal</option></select></label>
+          <label>País de origen<input id="origin-country" value="Ecuador" required></label>
+          <label>Ciudad / lugar de salida<input id="origin" placeholder="Ej. Guayaquil, Ecuador"></label>
+          <label>Puerto / lugar de destino<input id="destination" placeholder="Ej. Rotterdam, Países Bajos"></label>
+          <label>Fecha estimada de salida<input id="departure" type="date"></label>
+          <label>Fecha estimada de llegada<input id="arrival" type="date"></label>
+          <label>Empresa transportista<input id="carrier" placeholder="Nombre del operador logístico"></label>
+          <label>Número de seguimiento<input id="tracking" placeholder="BL, guía o referencia logística"></label>
+        </div>
+
+        <div class="form-section-title"><span>04</span><div><b>Costos y control financiero</b><small>Estimación de los costos asociados a la operación</small></div></div>
+        <div class="form-grid">
+          <label>Embalaje<input id="packaging-cost" type="number" min="0" step="0.01" value="0"></label>
+          <label>Transporte interno<input id="local-cost" type="number" min="0" step="0.01" value="0"></label>
+          <label>Transporte internacional<input id="freight-cost" type="number" min="0" step="0.01" value="0"></label>
+          <label>Seguro<input id="insurance-cost" type="number" min="0" step="0.01" value="0"></label>
+          <label>Otros gastos<input id="other-cost" type="number" min="0" step="0.01" value="0"></label>
+          <label>Estado de operación<select id="status"><option>Planificada</option><option>Documentación</option><option>En preparación</option><option>En tránsito</option><option>Entregada</option><option>Cancelada</option></select></label>
+        </div>
+        <div class="financial-summary"><div><small>Valor comercial</small><b id="summary-commercial">$0.00</b></div><div><small>Costos registrados</small><b id="summary-costs">$0.00</b></div><div><small>Diferencia estimada*</small><b id="summary-margin">$0.00</b></div></div>
+        <p class="disclaimer">*Diferencia referencial entre valor comercial y costos ingresados; no equivale a utilidad contable ni considera todos los tributos, gastos o condiciones contractuales.</p>
+
+        <div class="form-section-title"><span>05</span><div><b>Documentación de exportación</b><small>Marca los documentos disponibles para esta operación</small></div></div>
+        <div class="document-checks">
+          <label><input type="checkbox" name="doc" value="Factura comercial"> Factura comercial</label>
+          <label><input type="checkbox" name="doc" value="Lista de empaque (Packing List)"> Lista de empaque (Packing List)</label>
+          <label><input type="checkbox" name="doc" value="Documento de transporte"> Documento de transporte</label>
+          <label><input type="checkbox" name="doc" value="Certificado de origen"> Certificado de origen</label>
+          <label><input type="checkbox" name="doc" value="Certificado fitosanitario (si aplica)"> Certificado fitosanitario (si aplica)</label>
+          <label><input type="checkbox" name="doc" value="Declaración aduanera de exportación"> Declaración aduanera de exportación</label>
+          <label><input type="checkbox" name="doc" value="Contrato u orden de compra"> Contrato u orden de compra</label>
+          <label><input type="checkbox" name="doc" value="Póliza o certificado de seguro"> Póliza o certificado de seguro</label>
+        </div>
+        <label class="full-label">Observaciones<textarea id="notes" rows="3" placeholder="Notas internas, requisitos del comprador o novedades de la operación..."></textarea></label>
+        <div class="form-actions"><button type="reset" class="btn btn-outline">Limpiar formulario</button><button type="submit" class="btn btn-primary">Guardar exportación →</button></div>
+      </form>
+    </section>
+
+    <section id="exports" class="panel table-panel">
+      <div class="panel-head"><div><p class="overline">CONTROL OPERATIVO</p><h2>Registro de exportaciones</h2><p>Consulta y administra las operaciones registradas.</p></div></div>
+      <div class="table-tools"><input id="search" type="search" placeholder="Buscar por código, producto, comprador o país..."><select id="status-filter"><option value="">Todos los estados</option><option>Planificada</option><option>Documentación</option><option>En preparación</option><option>En tránsito</option><option>Entregada</option><option>Cancelada</option></select></div>
+      <div class="table-scroll"><table><thead><tr><th>Referencia</th><th>Producto</th><th>Comprador / destino</th><th>Fecha</th><th>Valor</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="exports-table"></tbody></table></div>
+      <p id="empty-state" class="empty-state">Aún no hay exportaciones registradas. Completa el formulario para comenzar.</p>
+    </section>
+
+    <section id="documents" class="panel document-panel">
+      <div class="panel-head"><div><p class="overline">CUMPLIMIENTO DOCUMENTAL</p><h2>Documentos de exportación</h2><p>Lista de verificación orientativa para operaciones agrícolas.</p></div></div>
+      <div class="notice"><b>Importante:</b> los documentos exigibles dependen del producto, país de destino, régimen y condiciones de la operación. Verifica los requisitos vigentes con SENAE, Agrocalidad y las autoridades del país importador.</div>
+      <div class="doc-guide">
+        <div><b>Factura comercial</b><p>Detalla vendedor, comprador, mercancía, precio, moneda e Incoterm pactado.</p></div>
+        <div><b>Lista de empaque</b><p>Describe bultos, pesos, cantidades y forma de embalaje.</p></div>
+        <div><b>Certificado fitosanitario</b><p>Puede ser necesario para productos vegetales según el destino y los requisitos aplicables.</p></div>
+        <div><b>Declaración aduanera de exportación</b><p>Trámite aduanero correspondiente a la salida legal de mercancías.</p></div>
+      </div>
+    </section>
+
+    <section id="reports" class="panel reports-panel">
+      <div class="panel-head"><div><p class="overline">ANÁLISIS EMPRESARIAL</p><h2>Resumen de exportaciones</h2><p>Indicadores calculados a partir de los registros guardados en este navegador.</p></div></div>
+      <div class="report-grid"><div><small>Valor total registrado</small><strong id="report-total">$0.00</strong></div><div><small>Costos ingresados</small><strong id="report-costs">$0.00</strong></div><div><small>Operaciones entregadas</small><strong id="report-delivered">0</strong></div><div><small>Producto más registrado</small><strong id="report-product">—</strong></div></div>
+    </section>
+    <footer>CampoDirecto ERP · Gestión de exportaciones · Prototipo académico</footer>
+  </main>
+  <dialog id="detail-dialog"><div class="dialog-head"><h2>Detalle de exportación</h2><button id="close-dialog" aria-label="Cerrar">✕</button></div><div id="detail-content"></div></dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
