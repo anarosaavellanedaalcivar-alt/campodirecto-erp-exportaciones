@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CRM CampoDirecto: gestión de clientes, productores y oportunidades comerciales agrícolas.">
+  <title>CampoDirecto | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="CampoDirecto inicio">
+        <span class="brand-mark">C<span>·</span></span>
+        <span class="brand-copy"><strong>CampoDirecto</strong><small>CRM AGRÍCOLA</small></span>
+      </a>
+      <div class="workspace-label">ESPACIO DE TRABAJO</div>
+      <nav class="nav">
+        <button class="nav-link active" data-view="dashboard"><span class="nav-icon">▦</span> Panel general</button>
+        <button class="nav-link" data-view="clients"><span class="nav-icon">♙</span> Clientes <span class="nav-count" id="clientNavCount">0</span></button>
+        <button class="nav-link" data-view="producers"><span class="nav-icon">♧</span> Productores</button>
+        <button class="nav-link" data-view="opportunities"><span class="nav-icon">↗</span> Oportunidades</button>
+        <button class="nav-link" data-view="quotes"><span class="nav-icon">▤</span> Cotizaciones</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <div class="help-icon">✦</div>
+          <strong>Crece con CampoDirecto</strong>
+          <p>Organiza tus relaciones comerciales y encuentra nuevas oportunidades.</p>
+        </div>
+        <div class="profile">
+          <div class="avatar">CD</div>
+          <div><strong>Administración</strong><small>Cuenta de empresa</small></div>
+          <span class="profile-dots">•••</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Abrir menú">☰</button>
+        <div class="breadcrumb">CampoDirecto <span>/</span> <strong id="breadcrumbCurrent">Panel general</strong></div>
+        <div class="top-actions">
+          <span class="system-status"><i></i> Sistema operativo</span>
+          <button class="icon-button" title="Notificaciones">♧<b></b></button>
+          <div class="top-avatar">CD</div>
+        </div>
+      </header>
+
+      <section class="content">
+        <section class="view active" id="view-dashboard">
+          <div class="page-heading">
+            <div><p class="eyebrow">CENTRO DE RELACIONES COMERCIALES</p><h1>Panel general</h1><p class="subheading">Conecta con tus clientes, gestiona oportunidades y haz crecer tu negocio agrícola.</p></div>
+            <button class="primary-btn" id="addClientTop">＋ Nuevo contacto</button>
+          </div>
+          <div class="welcome-strip">
+            <div><span class="welcome-tag">CAMPO DIRECTO · CRM</span><h2>Las mejores oportunidades<br>comienzan con una conexión.</h2><p>Administra tus relaciones comerciales desde un solo lugar.</p></div>
+            <div class="welcome-art"><span class="sun"></span><span class="hill hill-one"></span><span class="hill hill-two"></span><span class="plant plant-one">♧</span><span class="plant plant-two">♧</span></div>
+          </div>
+          <div class="section-title-row"><div><h2>Resumen comercial</h2><p>Indicadores de actividad de tu CRM</p></div><span class="period-pill">Vista general</span></div>
+          <div class="metrics-grid">
+            <article class="metric-card"><div class="metric-top"><span>Contactos registrados</span><span class="metric-icon green">♙</span></div><strong id="metricClients">0</strong><small>Clientes y empresas</small></article>
+            <article class="metric-card"><div class="metric-top"><span>Productores</span><span class="metric-icon lime">♧</span></div><strong id="metricProducers">0</strong><small>Proveedores agrícolas</small></article>
+            <article class="metric-card"><div class="metric-top"><span>Oportunidades activas</span><span class="metric-icon amber">↗</span></div><strong id="metricOpportunities">0</strong><small>Negociaciones en seguimiento</small></article>
+            <article class="metric-card"><div class="metric-top"><span>Valor potencial</span><span class="metric-icon blue">$</span></div><strong id="metricValue">$0</strong><small>Valor estimado registrado</small></article>
+          </div>
+          <div class="dashboard-grid">
+            <article class="panel">
+              <div class="panel-heading"><div><h3>Oportunidades recientes</h3><p>Seguimiento de negociaciones</p></div><button class="text-button" data-goto="opportunities">Ver todas →</button></div>
+              <div class="table-wrap"><table><thead><tr><th>OPORTUNIDAD</th><th>CLIENTE</th><th>ETAPA</th><th>VALOR</th></tr></thead><tbody id="recentOpportunities"></tbody></table></div>
+            </article>
+            <article class="panel activity-panel">
+              <div class="panel-heading"><div><h3>Accesos rápidos</h3><p>Gestiona tu actividad</p></div></div>
+              <button class="quick-action" id="quickClient"><span class="quick-icon">＋</span><span><strong>Registrar cliente</strong><small>Agregar un nuevo comprador</small></span><b>→</b></button>
+              <button class="quick-action" data-goto="producers"><span class="quick-icon leaf">♧</span><span><strong>Ver productores</strong><small>Consultar proveedores agrícolas</small></span><b>→</b></button>
+              <button class="quick-action" data-goto="opportunities"><span class="quick-icon chart">↗</span><span><strong>Revisar oportunidades</strong><small>Dar seguimiento a negociaciones</small></span><b>→</b></button>
+            </article>
+          </div>
+          <div class="bottom-note"><span>✦</span> <div><strong>Una gestión comercial más organizada.</strong><p>CampoDirecto conecta la producción agrícola con nuevas oportunidades de mercado.</p></div></div>
+        </section>
+
+        <section class="view" id="view-clients">
+          <div class="page-heading"><div><p class="eyebrow">DIRECTORIO COMERCIAL</p><h1>Clientes</h1><p class="subheading">Administra compradores, distribuidores e importadores.</p></div><button class="primary-btn" id="addClient">＋ Registrar cliente</button></div>
+          <div class="toolbar"><div class="search-box"><span>⌕</span><input id="clientSearch" placeholder="Buscar por nombre, empresa o correo..."></div><span class="result-count" id="clientCount">0 contactos</span></div>
+          <div class="panel"><div class="table-wrap"><table><thead><tr><th>NOMBRE / EMPRESA</th><th>TIPO</th><th>UBICACIÓN</th><th>CONTACTO</th><th>ESTADO</th><th></th></tr></thead><tbody id="clientsTable"></tbody></table></div><div class="empty-state" id="clientsEmpty"><span>♙</span><strong>Aún no tienes clientes registrados</strong><p>Agrega tu primer contacto para comenzar a organizar tus relaciones comerciales.</p><button class="primary-btn" id="emptyAddClient">＋ Registrar cliente</button></div></div>
+        </section>
+
+        <section class="view" id="view-producers">
+          <div class="page-heading"><div><p class="eyebrow">RED DE ABASTECIMIENTO</p><h1>Productores</h1><p class="subheading">Consulta y organiza la red de productores agrícolas vinculados.</p></div><button class="primary-btn" id="addProducer">＋ Nuevo productor</button></div>
+          <div class="producer-intro"><div class="producer-symbol">♧</div><div><strong>Una red que conecta el campo con el mercado.</strong><p>Registra productores, zonas de origen y principales productos para facilitar futuras negociaciones.</p></div></div>
+          <div class="producer-grid" id="producerGrid"></div>
+        </section>
+
+        <section class="view" id="view-opportunities">
+          <div class="page-heading"><div><p class="eyebrow">DESARROLLO COMERCIAL</p><h1>Oportunidades</h1><p class="subheading">Controla el avance de tus posibles ventas y negociaciones.</p></div><button class="primary-btn" id="addOpportunity">＋ Nueva oportunidad</button></div>
+          <div class="pipeline-summary" id="pipelineSummary"></div>
+          <div class="panel"><div class="table-wrap"><table><thead><tr><th>OPORTUNIDAD</th><th>CLIENTE</th><th>PRODUCTO</th><th>ETAPA</th><th>VALOR ESTIMADO</th></tr></thead><tbody id="opportunitiesTable"></tbody></table></div><div class="empty-state" id="opportunitiesEmpty"><span>↗</span><strong>No hay oportunidades registradas</strong><p>Crea una oportunidad para comenzar a dar seguimiento a una negociación.</p><button class="primary-btn" id="emptyAddOpportunity">＋ Nueva oportunidad</button></div></div>
+        </section>
+
+        <section class="view" id="view-quotes">
+          <div class="page-heading"><div><p class="eyebrow">PROPUESTAS COMERCIALES</p><h1>Cotizaciones</h1><p class="subheading">Organiza las ofertas enviadas a tus clientes.</p></div><button class="primary-btn" id="addQuote">＋ Nueva cotización</button></div>
+          <div class="panel"><div class="quote-placeholder"><div class="quote-icon">▤</div><h3>Centraliza tus cotizaciones</h3><p>Registra las propuestas comerciales, cantidades, precios y condiciones acordadas con tus compradores.</p><button class="primary-btn" id="quoteStart">＋ Registrar cotización</button><small>Las cotizaciones de este prototipo se guardan en este navegador.</small></div><div class="table-wrap"><table><thead><tr><th>CLIENTE</th><th>PRODUCTO</th><th>CANTIDAD</th><th>VALOR</th><th>FECHA</th></tr></thead><tbody id="quotesTable"></tbody></table></div></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header"><div><p class="eyebrow">CAMPODIRECTO CRM</p><h2 id="modalTitle">Nuevo registro</h2></div><button class="close-modal" id="closeModal" aria-label="Cerrar">×</button></div>
+      <form id="recordForm"><div id="formFields" class="form-grid"></div><div class="form-actions"><button type="button" class="secondary-btn" id="cancelModal">Cancelar</button><button type="submit" class="primary-btn">Guardar registro</button></div></form>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
