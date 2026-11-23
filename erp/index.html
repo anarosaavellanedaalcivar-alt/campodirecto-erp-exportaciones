@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampoDirecto | ERP Inteligente</title>
+<style>
+:root{
+  --bg:#071b13;
+  --panel:#102b20;
+  --panel2:#163728;
+  --green:#75bd78;
+  --green2:#a6d78c;
+  --gold:#d7b65d;
+  --text:#edf5eb;
+  --muted:#9bb5a2;
+  --border:rgba(255,255,255,.09);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;background:#091f16;border-right:1px solid var(--border);
+  padding:22px 14px;position:fixed;inset:0 auto 0 0;
+  display:flex;flex-direction:column;z-index:5;overflow-y:auto;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:0 8px 25px}
+.logo{
+  width:43px;height:43px;border-radius:14px;background:#245b37;
+  display:grid;place-items:center;font-size:25px;
+}
+.brand strong{font-size:20px;letter-spacing:.2px}
+.brand small{display:block;color:var(--green2);font-size:10px;margin-top:3px}
+.menu-label{font-size:10px;color:#75917d;letter-spacing:1.5px;padding:13px 10px 8px}
+.nav{
+  border:0;background:transparent;color:#a9c0ad;width:100%;
+  text-align:left;padding:11px 12px;border-radius:10px;
+  display:flex;align-items:center;gap:12px;margin:2px 0;font-size:13px;
+}
+.nav:hover,.nav.active{background:#214c32;color:#fff}
+.nav .ico{width:20px;text-align:center;font-size:16px}
+.sidebar-bottom{margin-top:auto;padding:15px 9px 0;color:#89a391;font-size:11px;line-height:1.6}
+.main{margin-left:245px;width:calc(100% - 245px);min-width:0}
+.topbar{
+  height:68px;background:#0b2419;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;gap:15px;position:sticky;top:0;z-index:4;
+}
+.search{background:#173326;border:1px solid var(--border);border-radius:30px;
+  padding:10px 15px;color:white;width:min(370px,45%)}
+.top-actions{display:flex;align-items:center;gap:15px;color:#c4d5c7;font-size:13px}
+.avatar{width:34px;height:34px;border-radius:50%;background:#477b50;display:grid;place-items:center}
+.content{padding:26px 28px 40px;max-width:1600px;margin:auto}
+.welcome{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}
+h1{font-size:23px;margin:0 0 7px}
+.sub{color:var(--muted);font-size:12px}
+.date{color:#b4c9b8;font-size:12px}
+.hero{
+  border:1px solid var(--border);border-radius:17px;padding:20px;
+  background:linear-gradient(110deg,rgba(10,43,27,.96),rgba(20,67,39,.72)),
+  url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1600') center/cover;
+  margin-bottom:18px;
+}
+.hero h2{font-size:20px;margin:0 0 8px}
+.hero p{font-size:12px;color:#d0e0d0;margin:0;max-width:650px;line-height:1.6}
+.grid{display:grid;gap:15px}
+.kpis{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:17px}
+.card{
+  background:linear-gradient(145deg,#153728,#10291e);
+  border:1px solid var(--border);border-radius:15px;padding:17px;
+  min-width:0;box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.kpi-top{display:flex;justify-content:space-between;align-items:center;color:#c4d8c8;font-size:12px}
+.kpi-icon{width:32px;height:32px;border-radius:10px;background:#285b3a;display:grid;place-items:center}
+.kpi-value{font-size:27px;font-weight:700;margin:13px 0 6px}
+.positive{color:#9bd18d;font-size:11px}
+.middle{grid-template-columns:1.4fr 1fr 1fr;margin-bottom:16px}
+.card h3{font-size:14px;margin:0 0 7px}
+.card .desc{font-size:11px;color:var(--muted);margin-bottom:16px}
+.health-score{display:flex;align-items:center;gap:22px}
+.ring{
+  width:112px;height:112px;border-radius:50%;
+  background:conic-gradient(#8bcf7b 0 86%,#d9b95b 86% 92%,#274b35 92%);
+  display:grid;place-items:center;flex-shrink:0;
+}
+.ring-inner{width:82px;height:82px;border-radius:50%;background:#143426;display:grid;place-items:center;text-align:center}
+.ring-inner b{font-size:23px}
+.legend{font-size:11px;color:#b5c9b8;line-height:2}
+.legend span{color:var(--green2);margin-right:6px}
+.weather-temp{font-size:32px;font-weight:700;margin:12px 0}
+.weather-details{display:flex;justify-content:space-between;color:#abc2b0;font-size:11px;margin-top:18px}
+.soil-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:12px}
+.progress{height:7px;background:#294b35;border-radius:10px;overflow:hidden;margin-top:8px}
+.progress span{display:block;height:100%;background:#91ce78;border-radius:10px}
+.lower{grid-template-columns:1fr 1.35fr 1fr}
+.task{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:11px}
+.task-icon{width:29px;height:29px;border-radius:9px;background:#285238;display:grid;place-items:center}
+.tag{margin-left:auto;color:#a8d68e;font-size:10px}
+.chart{height:155px;width:100%;display:block}
+.chart text{fill:#a9c1ad;font-size:10px}
+.chart line{stroke:#385a43;stroke-width:1}
+.chart polyline{fill:none;stroke:#a9d58c;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.chart circle{fill:#d6e9b8}
+.bar-row{display:flex;align-items:center;gap:9px;margin:12px 0;font-size:11px}
+.bar{height:8px;flex:1;background:#294a35;border-radius:10px;overflow:hidden}
+.bar span{height:100%;display:block;background:#8acb78;border-radius:10px}
+.module-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.module-card{cursor:pointer;transition:.2s}
+.module-card:hover{transform:translateY(-3px);border-color:#75bd78}
+.module-card .big{font-size:27px;margin-bottom:12px}
+.module-card p{font-size:11px;color:var(--muted);line-height:1.5}
+.module-card button,.primary{
+  background:#28613b;color:white;border:0;border-radius:9px;padding:10px 14px;font-size:12px;
+}
+.module-card button:hover,.primary:hover{background:#397c4b}
+.page-title{margin-bottom:20px}
+.page-title h1{font-size:24px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}
+.field{background:#0c2419;color:white;border:1px solid var(--border);border-radius:8px;padding:10px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:600px}
+th,td{text-align:left;padding:13px 10px;border-bottom:1px solid var(--border)}
+th{color:#9eb8a3;font-weight:500}
+.status{padding:5px 8px;border-radius:20px;background:#214b31;color:#a9dc96;font-size:10px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.form-grid label{font-size:11px;color:#b9cdbd;display:grid;gap:6px}
+.form-grid input,.form-grid select{width:100%}
+.digital{
+  min-height:180px;border-radius:13px;padding:18px;
+  background:linear-gradient(120deg,rgba(8,36,22,.85),rgba(28,77,43,.65)),
+  url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1000') center/cover;
+  border:1px solid var(--border);display:flex;flex-direction:column;justify-content:flex-end;
+}
+.digital strong{font-size:18px}
+.digital small{color:#d0e0d0;margin-top:6px}
+.notice{padding:13px;background:#263e29;border-radius:10px;color:#d4e8cf;font-size:12px;line-height:1.6;margin-top:14px}
+.mobile-menu{display:none;background:transparent;color:white;border:0;font-size:23px}
+footer{color:#78917d;font-size:10px;text-align:center;padding:25px}
+@media(max-width:1100px){
+ .kpis{grid-template-columns:repeat(2,1fr)}
+ .middle,.lower{grid-template-columns:1fr 1fr}
+ .middle .card:first-child,.lower .card:nth-child(2){grid-column:span 2}
+}
+@media(max-width:720px){
+ .sidebar{transform:translateX(-100%);transition:.25s}
+ .sidebar.open{transform:translateX(0)}
+ .main{margin-left:0;width:100%}
+ .mobile-menu{display:block}
+ .topbar{padding:0 14px}
+ .search{width:45%;font-size:11px}
+ .content{padding:18px 13px}
+ .kpis{grid-template-columns:1fr 1fr;gap:9px}
+ .middle,.lower,.module-grid{grid-template-columns:1fr}
+ .middle .card:first-child,.lower .card:nth-child(2){grid-column:auto}
+ .welcome{align-items:flex-start;flex-direction:column}
+ .form-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="logo">🌱</div>
+    <div><strong>CampoDirecto</strong><small>ERP AGRÍCOLA INTELIGENTE</small></div>
+  </div>
+  <div class="menu-label">PRINCIPAL</div>
+  <button class="nav active" data-page="dashboard"><span class="ico">▦</span> Dashboard</button>
+  <button class="nav" data-page="productos"><span class="ico">🌾</span> Productos</button>
+  <button class="nav" data-page="inventario"><span class="ico">📦</span> Inventario</button>
+  <button class="nav" data-page="ventas"><span class="ico">🛒</span> Ventas y pedidos</button>
+  <button class="nav" data-page="compras"><span class="ico">🧾</span> Compras</button>
+  <div class="menu-label">GESTIÓN EMPRESARIAL</div>
+  <button class="nav" data-page="crm"><span class="ico">👥</span> CRM - Clientes</button>
+  <button class="nav" data-page="productores"><span class="ico">👨‍🌾</span> Productores</button>
+  <button class="nav" data-page="finanzas"><span class="ico">💰</span> Finanzas</button>
+  <button class="nav" data-page="exportaciones"><span class="ico">🌎</span> Exportaciones</button>
+  <div class="menu-label">TECNOLOGÍA AGRÍCOLA</div>
+  <button class="nav" data-page="cultivos"><span class="ico">🌱</span> Gestión de cultivos</button>
+  <button class="nav" data-page="gemelos"><span class="ico">🛰️</span> Gemelos digitales</button>
+  <button class="nav" data-page="ia"><span class="ico">🤖</span> Inteligencia artificial</button>
+  <button class="nav" data-page="reportes"><span class="ico">📊</span> Reportes</button>
+  <button class="nav" data-page="alertas"><span class="ico">🔔</span> Alertas</button>
+  <button class="nav" data-page="configuracion"><span class="ico">⚙️</span> Configuración</button>
+  <div class="sidebar-bottom">CampoDirecto © 2026<br>Conectando el campo con el mundo 🌎</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <button class="mobile-menu" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <input class="search" id="globalSearch" placeholder="⌕  Buscar módulos, productos, clientes...">
+  <div class="top-actions"><span>🔔</span><span>＋</span><div class="avatar">👩‍🌾</div><span>Administración</span></div>
+</header>
+<div class="content" id="content"></div>
+<footer>CampoDirecto · Plataforma de gestión agrícola y comercio nacional e internacional</footer>
+</main>
+</div>
+
+<script>
+const products=[
+ {name:"Papa súper chola",sku:"CD-001",category:"Tubérculos",stock:850,unit:"quintales",price:28},
+ {name:"Maíz amarillo",sku:"CD-002",category:"Cereales",stock:420,unit:"quintales",price:22},
+ {name:"Fréjol canario",sku:"CD-003",category:"Leguminosas",stock:180,unit:"quintales",price:65},
+ {name:"Cebolla colorada",sku:"CD-004",category:"Hortalizas",stock:90,unit:"quintales",price:25},
+ {name:"Tomate de árbol",sku:"CD-005",category:"Frutas",stock:65,unit:"cajas",price:18}
+];
+const clients=[
+ {name:"Distribuidora Andina",type:"Empresa",city:"Tulcán",phone:"0990000001",email:"compras@ejemplo.com",status:"Activo"},
+ {name:"Mercado Agrícola del Norte",type:"Empresa",city:"Ibarra",phone:"0990000002",email:"ventas@ejemplo.com",status:"Activo"},
+ {name:"Productores del Carchi",type:"Asociación",city:"Montúfar",phone:"0990000003",email:"contacto@ejemplo.com",status:"Prospecto"}
+];
+let orders=[
+ {id:"CD-1001",client:"Distribuidora Andina",product:"Papa súper chola",qty:50,total:1400,status:"En proceso"},
+ {id:"CD-1002",client:"Mercado Agrícola del Norte",product:"Maíz amarillo",qty:30,total:660,status:"Entregado"},
+ {id:"CD-1003",client:"Productores del Carchi",product:"Fréjol canario",qty:10,total:650,status:"Pendiente"}
+];
+let current="dashboard";
+const money=n=>"$"+Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+function setPage(page){
+ current=page;
+ document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ document.getElementById("sidebar").classList.remove("open");
+ render();
+}
+document.querySelectorAll(".nav").forEach(b=>b.addEventListener("click",()=>setPage(b.dataset.page)));
+function dashboard(){
+ return `
+ <div class="welcome"><div><h1>Bienvenida a CampoDirecto 👋</h1><div class="sub">Aquí tienes el resumen de tu operación agrícola.</div></div><div class="date">📅 Panel de control · Ecuador</div></div>
+ <section class="hero"><h2>Del campo ecuatoriano al mundo 🌎</h2><p>Gestiona productores, inventarios, clientes, ventas y exportaciones desde una sola plataforma. Tecnología para impulsar el comercio agrícola.</p></section>
+ <div class="grid kpis">
+  ${kpi("Productos registrados",products.length,"🌾","Catálogo agrícola")}
+  ${kpi("Unidades en inventario",products.reduce((a,p)=>a+p.stock,0).toLocaleString(),"📦","Stock de demostración")}
+  ${kpi("Clientes registrados",clients.length,"👥","CRM comercial")}
+  ${kpi("Ventas registradas",money(orders.reduce((a,o)=>a+o.total,0)),"💰","Pedidos de demostración")}
+ </div>
+ <div class="grid middle">
+  <div class="card"><h3>Indicador de gestión agrícola</h3><div class="desc">Estado general de la operación · Datos demostrativos</div><div class="health-score"><div class="ring"><div class="ring-inner"><div><b>86</b><small>/100</small></div></div></div><div class="legend"><div><span>●</span> Gestión óptima · 35%</div><div><span>●</span> Buen nivel · 40%</div><div><span>●</span> Atención · 15%</div><div><span>●</span> Crítico · 10%</div></div></div><div class="positive" style="margin-top:15px">↗ Indicador ilustrativo del sistema</div></div>
+  <div class="card"><h3>Actividad comercial</h3><div class="desc">Resumen de pedidos registrados</div><div class="weather-temp">${orders.length}<small style="font-size:13px;color:#a9c4ad"> pedidos</small></div><div class="soil-row"><span>En proceso</span><b>${orders.filter(o=>o.status==="En proceso").length}</b></div><div class="soil-row"><span>Entregados</span><b>${orders.filter(o=>o.status==="Entregado").length}</b></div><div class="soil-row"><span>Pendientes</span><b>${orders.filter(o=>o.status==="Pendiente").length}</b></div></div>
+  <div class="card"><h3>Estado del inventario</h3><div class="desc">Existencias por categoría</div>${["Tubérculos","Cereales","Leguminosas","Hortalizas","Frutas"].map(c=>{let v=products.filter(p=>p.category===c).reduce((a,p)=>a+p.stock,0);return `<div class="soil-row"><span>${c}</span><b>${v}</b></div>`}).join("")}<div class="positive" style="margin-top:12px">Stock de ejemplo · Actualizable</div></div>
+ </div>
+ <div class="grid lower">
+  <div class="card"><h3>Actividad reciente</h3><div class="desc">Movimientos de la plataforma</div>
+   <div class="task"><div class="task-icon">📦</div><div><b>Inventario</b><br><span class="sub">Catálogo de productos disponible</span></div><span class="tag">Activo</span></div>
+   <div class="task"><div class="task-icon">👥</div><div><b>CRM</b><br><span class="sub">Gestión de clientes y contactos</span></div><span class="tag">Activo</span></div>
+   <div class="task"><div class="task-icon">🌎</div><div><b>Exportaciones</b><br><span class="sub">Módulo de comercio exterior</span></div><span class="tag">Disponible</span></div>
+  </div>
+  <div class="card"><h3>Comportamiento de ventas</h3><div class="desc">Ejemplo gráfico de actividad comercial</div>
+   <svg class="chart" viewBox="0 0 500 160" preserveAspectRatio="none"><line x1="25" y1="25" x2="490" y2="25"/><line x1="25" y1="65" x2="490" y2="65"/><line x1="25" y1="105" x2="490" y2="105"/><line x1="25" y1="145" x2="490" y2="145"/><polyline points="30,105 105,85 180,95 255,48 330,65 405,30 480,42"/><circle cx="30" cy="105" r="4"/><circle cx="105" cy="85" r="4"/><circle cx="180" cy="95" r="4"/><circle cx="255" cy="48" r="4"/><circle cx="330" cy="65" r="4"/><circle cx="405" cy="30" r="4"/><circle cx="480" cy="42" r="4"/><text x="25" y="158">Lun</text><text x="160" y="158">Mié</text><text x="300" y="158">Vie</text><text x="460" y="158">Dom</text></svg>
+  </div>
+  <div class="card"><h3>Distribución del catálogo</h3><div class="desc">Productos por categoría</div>${["Tubérculos","Cereales","Leguminosas","Hortalizas","Frutas"].map((c,i)=>`<div class="bar-row"><span style="width:85px">${c}</span><div class="bar"><span style="width:${[90,70,45,30,25][i]}%"></span></div></div>`).join("")}</div>
+ </div>`;
+}
+function kpi(title,value,icon,foot){return `<div class="card"><div class="kpi-top"><span>${title}</span><span class="kpi-icon">${icon}</span></div><div class="kpi-value">${value}</div><div class="positive">↗ ${foot}</div></div>`}
+function pageHeader(title,desc){return `<div class="page-title"><h1>${title}</h1><div class="sub">${desc}</div></div>`}
+function tableProducts(){return `<div class="card"><div class="toolbar"><input class="field" id="productSearch" placeholder="Buscar producto..." oninput="filterProducts()"><button class="primary" onclick="addProduct()">＋ Nuevo producto</button><button class="primary" onclick="exportCSV()">Exportar CSV</button></div><div class="table-wrap"><table id="productTable"><thead><tr><th>Producto</th><th>SKU</th><th>Categoría</th><th>Stock</th><th>Unidad</th><th>Precio referencial</th></tr></thead><tbody>${products.map(p=>`<tr><td>${p.name}</td><td>${p.sku}</td><td>${p.category}</td><td>${p.stock}</td><td>${p.unit}</td><td>${money(p.price)}</td></tr>`).join("")}</tbody></table></div></div>`}
+function filterProducts(){let q=document.getElementById("productSearch").value.toLowerCase();document.querySelectorAll("#productTable tbody tr").forEach(r=>r.style.display=r.innerText.toLowerCase().includes(q)?"":"none")}
+function addProduct(){let name=prompt("Nombre del producto:");if(!name)return;let stock=Number(prompt("Cantidad disponible:","0"));if(!Number.isFinite(stock)||stock<0)return alert("Cantidad no válida");let price=Number(prompt("Precio referencial en dólares:","0"));products.push({name,sku:"CD-"+String(products.length+1).padStart(3,"0"),category:"Otros",stock,unit:"unidades",price});render()}
+function exportCSV(){let rows=[["Producto","SKU","Categoría","Stock","Unidad","Precio"],...products.map(p=>[p.name,p.sku,p.category,p.stock,p.unit,p.price])];let csv=rows.map(r=>r.join(",")).join("\n");let a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv"}));a.download="campodirecto-inventario.csv";a.click();URL.revokeObjectURL(a.href)}
+function crmPage(){return `${pageHeader("CRM · Gestión de clientes","Administra relaciones comerciales con compradores, empresas y productores.")}<div class="grid kpis">${kpi("Clientes registrados",clients.length,"👥","Contactos de demostración")}${kpi("Empresas",clients.filter(c=>c.type==="Empresa").length,"🏢","Cartera comercial")}${kpi("Prospectos",clients.filter(c=>c.status==="Prospecto").length,"🎯","Oportunidades")}${kpi("Seguimientos",2,"📞","Tareas de ejemplo")}</div><div class="card"><div class="toolbar"><input class="field" id="crmSearch" placeholder="Buscar cliente..." oninput="filterCRM()"><button class="primary" onclick="addClient()">＋ Nuevo cliente</button></div><div class="table-wrap"><table id="crmTable"><thead><tr><th>Cliente</th><th>Tipo</th><th>Ciudad</th><th>Teléfono</th><th>Correo</th><th>Estado</th></tr></thead><tbody>${clients.map(c=>`<tr><td>${c.name}</td><td>${c.type}</td><td>${c.city}</td><td>${c.phone}</td><td>${c.email}</td><td><span class="status">${c.status}</span></td></tr>`).join("")}</tbody></table></div></div>`}
+function filterCRM(){let q=document.getElementById("crmSearch").value.toLowerCase();document.querySelectorAll("#crmTable tbody tr").forEach(r=>r.style.display=r.innerText.toLowerCase().includes(q)?"":"none")}
+function addClient(){let name=prompt("Nombre del cliente o empresa:");if(!name)return;let city=prompt("Ciudad:")||"Por registrar";let phone=prompt("Teléfono:")||"Por registrar";clients.push({name,type:"Cliente",city,phone,email:"Por registrar",status:"Prospecto"});render()}
+function ordersPage(){return `${pageHeader("Ventas y pedidos","Consulta y registra operaciones comerciales de CampoDirecto.")}<div class="card"><div class="toolbar"><button class="primary" onclick="addOrder()">＋ Registrar pedido</button></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Cliente</th><th>Producto</th><th>Cantidad</th><th>Total</th><th>Estado</th></tr></thead><tbody>${orders.map(o=>`<tr><td>${o.id}</td><td>${o.client}</td><td>${o.product}</td><td>${o.qty}</td><td>${money(o.total)}</td><td><span class="status">${o.status}</span></td></tr>`).join("")}</tbody></table></div></div>`}
+function addOrder(){let client=prompt("Nombre del cliente:");if(!client)return;let product=prompt("Producto:");if(!product)return;let qty=Number(prompt("Cantidad:","1"));let total=Number(prompt("Total en dólares:","0"));if(qty<=0||total<0)return alert("Datos no válidos");orders.push({id:"CD-"+(1001+orders.length),client,product,qty,total,status:"Pendiente"});render()}
+const moduleInfo={
+ compras:["🧾","Compras","Registra proveedores, solicitudes, órdenes de compra y recepción de productos.","Planificación de abastecimiento, proveedores y costos."],
+ productores:["👨‍🌾","Productores","Conecta a agricultores, asociaciones y empresas familiares con nuevos compradores.","Registro de productores, ubicación, oferta agrícola y acuerdos."],
+ finanzas:["💰","Finanzas","Consulta ingresos, egresos, costos operativos y resultados del negocio.","Control financiero y seguimiento de presupuestos."],
+ exportaciones:["🌎","Exportaciones","Organiza operaciones para llevar productos agrícolas ecuatorianos a mercados internacionales.","Destinos, Incoterms, documentos, logística y seguimiento."],
+ cultivos:["🌱","Gestión de cultivos","Registra terrenos, ciclos agrícolas, variedades y labores de producción.","Seguimiento de siembra, desarrollo y cosecha."],
+ ia:["🤖","Inteligencia artificial","Un espacio para incorporar análisis y recomendaciones inteligentes.","En una siguiente etapa se conectará un servicio de IA real."],
+ reportes:["📊","Reportes","Consulta indicadores de ventas, inventario, clientes y exportaciones.","Generación de informes para la toma de decisiones."],
+ alertas:["🔔","Alertas","Centraliza avisos de inventario, pedidos y actividades pendientes.","Las alertas actuales son demostrativas."],
+ configuracion:["⚙️","Configuración","Administra preferencias generales de la plataforma.","Usuarios, permisos y parámetros empresariales."]
+};
+function digitalPage(){return `${pageHeader("Gemelos digitales","Representaciones digitales de terrenos, cultivos e inventarios para visualizar y planificar operaciones.")}<div class="grid module-grid"><div class="digital"><strong>🌱 Gemelo digital de cultivos</strong><small>Representación visual de parcelas y ciclos agrícolas</small></div><div class="digital"><strong>🛰️ Gemelo digital de terrenos</strong><small>Visualización de áreas productivas y ubicación</small></div><div class="digital"><strong>📦 Gemelo digital de inventario</strong><small>Representación de existencias y movimientos</small></div></div><div class="grid middle" style="margin-top:16px"><div class="card"><h3>Monitoreo de cultivos</h3><div class="desc">Panel conceptual de seguimiento</div><div class="soil-row"><span>Parcela demostrativa A</span><b>86/100</b></div><div class="progress"><span style="width:86%"></span></div><div class="soil-row"><span>Parcela demostrativa B</span><b>72/100</b></div><div class="progress"><span style="width:72%"></span></div></div><div class="card"><h3>Variables del gemelo</h3><div class="soil-row"><span>Humedad del suelo</span><b>52%*</b></div><div class="soil-row"><span>Temperatura</span><b>22 °C*</b></div><div class="soil-row"><span>Estado del cultivo</span><b>En observación</b></div><div class="notice">*Valores ilustrativos. Para obtener datos reales se necesitan sensores, estaciones meteorológicas o servicios de datos conectados.</div></div></div>`}
+function modulePage(page){let m=moduleInfo[page];return `${pageHeader(m[1],m[2])}<div class="grid module-grid"><div class="card"><div class="big">${m[0]}</div><h3>${m[1]}</h3><p>${m[3]}</p><span class="status">Módulo disponible</span></div><div class="card"><h3>Funciones del módulo</h3><p>${m[2]}</p><p>Los procesos y registros se ampliarán en las siguientes etapas del proyecto.</p></div><div class="card"><h3>Integración CampoDirecto</h3><p>Este módulo se relacionará con inventario, CRM, ventas y reportes para conectar la gestión empresarial.</p></div></div>`}
+function render(){
+ let html="";
+ if(current==="dashboard")html=dashboard();
+ else if(current==="productos"||current==="inventario")html=pageHeader(current==="productos"?"Catálogo de productos":"Control de inventario","Administra productos agrícolas y existencias.")+tableProducts();
+ else if(current==="crm")html=crmPage();
+ else if(current==="ventas")html=ordersPage();
+ else if(current==="gemelos")html=digitalPage();
+ else html=modulePage(current);
+ document.getElementById("content").innerHTML=html;
+}
+document.getElementById("globalSearch").addEventListener("keydown",e=>{if(e.key==="Enter"){let q=e.target.value.toLowerCase();if(q.includes("cliente")||q.includes("crm"))setPage("crm");else if(q.includes("inventario")||q.includes("producto"))setPage("inventario");else if(q.includes("gemelo"))setPage("gemelos");else if(q.includes("venta")||q.includes("pedido"))setPage("ventas");else alert("Busca clientes, inventario, productos, ventas o gemelos digitales.")}});
+render();
+</script>
+</body>
+</html>
